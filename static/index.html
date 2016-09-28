@@ -1,0 +1,19 @@
+<!doctype html>
+
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>PETR Tolosan</title>
+    <link rel="icon" href="PETRicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body ng-controller="CoreCtrl">
+    <div class="fullscreen row col-12 relative" ng-view></div>
+    <header class="row fix-tl">
+      <img src="PETRimg.png" alt="Icone du Pays Tolosan" height="25"> PETR - Pays Tolosan - {{me.user.username}}
+      <button class="fl"><a href="" ng-click="auth.destroy()"><i class="fa fa-power-off"></i></a></button>
+    </header>
+    <script src="./index.js"></script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+<div id="petr">      </div> <!-- div avec id de la map -->
+<button ng-click="life.toolbaropen = !life.toolbaropen" class="fix-tr" ng-if="!life.toolbaropen" style="z-index: 5"><i class="fa fa-outdent"></i></button>
+<div id="toolbar" class="col-3 fix-tr bg-base1" style="height: 100%; z-index: 5" ng-if="life.toolbaropen">
+  <button ng-click="life.toolbaropen = !life.toolbaropen"class="fl"><i class="fa fa-indent"></i></button>
+  <button class="fr"> <a class="page" HREF="http://localhost:3001/#/login/"><i class="fa fa-sign-in"></i></a> </button>
+  <button class="fr"> <a class="page" HREF="http://localhost:3001/#/admin/"><i class="fa fa-lock"></i></a> </button>
+  <button class="fr"> <a class="page" HREF="http://localhost:3001/#/upload/"><i class="fa fa-upload"></i></a> </button>
+</div>

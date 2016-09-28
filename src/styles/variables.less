@@ -1,0 +1,29 @@
+@import 'https://fonts.googleapis.com/css?family=Raleway';
+// CONSTANTES
+@or: 1.618033988749895;
+
+// COLORS
+@danger:  #9f2929;
+@warning: spin(@danger, 50);
+@success: spin(@danger, 120);
+@info:    spin(@danger, 180);
+@primary: spin(@danger, 240);
+@second: spin(@danger, 300);
+
+@b : #181818;
+@w : #fff;
+
+@s : 75;
+@base1 : darken(spin(#b2cd8c, @s), 20%);
+@base2 : darken(spin(#e7efdb, @s), 0%);
+@base3 : darken(spin(#e7efdb, 180+@s), 50%);
+
+// FONTS
+@base-font: 'Raleway', 'sans-serif';
+
+@p: 10px;
+@grid: 12;
+@btn-padding: @p/2 @p;
+
+@form-item-height: 2em;
+@checkbox-offset-left: 0.5em;
