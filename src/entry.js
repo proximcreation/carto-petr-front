@@ -6,8 +6,10 @@ module.exports = (function(){
   var AngularLocalStorage = require('angular-local-storage');
   var _ = require('lodash');
   var L = require('leaflet');
+  
 
   require('./js/app.js');
+  require('./js/directive.js');
   require('./js/controller/CoreCtrl.js');
   require('./js/controller/HomeCtrl.js');
   require('./js/controller/AdminCtrl.js');
