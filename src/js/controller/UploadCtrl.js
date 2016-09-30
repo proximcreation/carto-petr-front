@@ -13,6 +13,12 @@ app
       data = _.map(data, function(s){return s.trim()});
       return data;
     })
+    
+    _.each(fileContent, function(data){//<==> .on("data", function(data){
+      
+    });
+    
+    
     console.log(fileContent);
   }
   
