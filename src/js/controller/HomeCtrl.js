@@ -58,22 +58,27 @@ app
   });
   // _________________________________________________________ERROR dans le get. Puis console.log pour vérifier ce que je récupère. puis affichage comme pour petr
   //
-  // $scope.hgarea = [];
-  // $http.get("http://localhost:3001/#/static/data/departements.geojson")
-  // .then(function (response) {
-  //   console.log(response.data)
-  //   $scope.hgarea.push()
-  //   var geojson = L.geoJson(
-  //     $scope.hgarea,
-  //     {
-  //       style:{
-  //         "fillColor": "blue",
-  //         "weight": 4,
-  //         "opacity": 0.45
-  //       }
-  //     }
-  //   );
-  //   geojson.addTo(mymap);
-  // });
+  $scope.hgarea = [];
+  $http.get("/data/departements.geojson")// <--- 1. pas de #/static. 2... il n’y a pas de departements.geojson dans /static/data ... du coup ça marchera pas !
+  // en fait les truc que tu met dans /static (comme le index.html par ex :p ) sont accessible directement à la racine (/)
+  // du coup soit chemin local comme précédement soit chemin absolu :
+  // $http.get("http://localhost:3001/data/departements.geojson")
+  // il te reste à mettre un fichier dans static/data (tu l’as certainement fait, mais oublié le git add -A avant le commit)
+  // a+ (et bravo pour ce qui précède)
+  .then(function (response) {
+    console.log(response.data)
+    $scope.hgarea.push()
+    var geojson = L.geoJson(
+      $scope.hgarea,
+      {
+        style:{
+          "fillColor": "blue",
+          "weight": 4,
+          "opacity": 0.45
+        }
+      }
+    );
+    geojson.addTo(mymap);
+  });
 
 }]);
