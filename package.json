@@ -1,8 +1,8 @@
 {
-  "name": "csv-parser",
+  "name": "PETR-front",
   "private": true,
   "version": "1.0.0",
-  "description": "A parser for csv files",
+  "description": "Front part of the PETR Tolosan Project",
   "author": "",
   "license": "ISC",
   "main": "index.js",

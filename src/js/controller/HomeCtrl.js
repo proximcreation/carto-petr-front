@@ -1,8 +1,8 @@
 var app = require('../app.js');
-// var request = require("request");
+
 app
 .controller('HomeCtrl', ['$scope', '$http', function ($scope, $http) {
-  var mymap = L.map('petr').setView([43.776600, 1.435513], 10);
+  var mymap = L.map('petr').setView([43.776600, 1.435513], 11);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJveGltY3JlYXRpb24iLCJhIjoiY2lzZXVjaXd5MDAydDJ1bnF6N2U0NHp1cSJ9.7w32xitQZ8iFA28qdQIvvw', {
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -31,7 +31,7 @@ app
   $scope.petrarea = [];
   $http.get("http://localhost:1337/city/?limit=80")
   .then(function (response) {
-    for (i=1; i<response.data.length; i++){
+    for (i=0; i<response.data.length; i++){
       $scope.petrarea.push ({
         "type": "Feature",
         "properties": {
@@ -56,32 +56,24 @@ app
     );
     geojson.addTo(mymap);
   });
-
-
-
-  //   var petrarea = [{
-  //     "type": "Feature",
-  //     "properties": {
-  //       "name": body.name,
-  //       "amenity": "Partie exterieure d'auzielle,",
-  //       "popupContent": "Route d'auzielle : vers Odars, Escalquens, Saint Orens"
-  //     },
-  //     "geometry": {
-  //         "type": "Polygon",
-  //         "coordinates":
+  // _________________________________________________________ERROR dans le get. Puis console.log pour vérifier ce que je récupère. puis affichage comme pour petr
   //
-  //         ]]
+  // $scope.hgarea = [];
+  // $http.get("http://localhost:3001/#/static/data/departements.geojson")
+  // .then(function (response) {
+  //   console.log(response.data)
+  //   $scope.hgarea.push()
+  //   var geojson = L.geoJson(
+  //     $scope.hgarea,
+  //     {
+  //       style:{
+  //         "fillColor": "blue",
+  //         "weight": 4,
+  //         "opacity": 0.45
+  //       }
   //     }
-  //   }]
-  // }
-// var geojson = L.geoJson(
-//   auziellearea,
-//   {
-//     style:{
-//       "fillColor": "blue",
-//       "weight": 5,
-//       "opacity": 0.65
-//     }
-//   }
-// );
+  //   );
+  //   geojson.addTo(mymap);
+  // });
+
 }]);
