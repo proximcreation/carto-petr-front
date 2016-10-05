@@ -5,27 +5,27 @@ app
   var mymap = L.map('petr').setView([43.776600, 1.435513], 11);
 
   L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicHJveGltY3JlYXRpb24iLCJhIjoiY2lzZXVjaXd5MDAydDJ1bnF6N2U0NHp1cSJ9.7w32xitQZ8iFA28qdQIvvw', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 18,
-      id: 'your.mapbox.project.id',
-      accessToken: 'your.mapbox.public.access.token'
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    maxZoom: 18,
+    id: 'your.mapbox.project.id',
+    accessToken: 'your.mapbox.public.access.token'
   }).addTo(mymap);
   $scope.life = {};
   $scope.new = {};
 
   function onEachFeature(feature, layer) {
-			var popupContent = "<p>INFOS :</p>";
+    var popupContent = "<p>INFOS :</p>";
 
-			if (feature.properties && feature.properties.popupContent) {
-				popupContent += feature.properties.popupContent;
-			}
+    if (feature.properties && feature.properties.popupContent) {
+      popupContent += feature.properties.popupContent;
+    }
 
-			layer.bindPopup(popupContent);
+    layer.bindPopup(popupContent);
 
-      layer.on({
-        mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
+    layer.on({
+      mouseover: highlightFeature,
+      mouseout: resetHighlight,
+      click: zoomToFeature
     });
   }
   $scope.petrarea = [];
@@ -38,8 +38,8 @@ app
           "name": response.data[i].name
         },
         "geometry": {
-            "type": "Polygon",
-            "coordinates": response.data[i].coordinates
+          "type": "Polygon",
+          "coordinates": response.data[i].coordinates
 
         }
       })
@@ -56,23 +56,23 @@ app
     );
     geojson.addTo(mymap);
   });
-  // _________________________________________________________ERROR dans le get. Puis console.log pour vérifier ce que je récupère. puis affichage comme pour petr
-  //
+
   $scope.hgarea = [];
-  $http.get("/data/departements.geojson")// <--- 1. pas de #/static. 2... il n’y a pas de departements.geojson dans /static/data ... du coup ça marchera pas !
-  // en fait les truc que tu met dans /static (comme le index.html par ex :p ) sont accessible directement à la racine (/)
-  // du coup soit chemin local comme précédement soit chemin absolu :
-  // $http.get("http://localhost:3001/data/departements.geojson")
-  // il te reste à mettre un fichier dans static/data (tu l’as certainement fait, mais oublié le git add -A avant le commit)
-  // a+ (et bravo pour ce qui précède)
+  $http.get("/data/departements.geojson")
   .then(function (response) {
-    console.log(response.data)
-    $scope.hgarea.push()
+    var id_departement;
+    var dep = response.data.features;
+    for(i=0; i<dep.length; i++){
+      if (dep[i].properties.code == 31){
+        id_departement = i;
+      }
+    }
+    $scope.hgarea.push(dep[id_departement])
     var geojson = L.geoJson(
       $scope.hgarea,
       {
         style:{
-          "fillColor": "blue",
+          "fillColor": "grey",
           "weight": 4,
           "opacity": 0.45
         }
