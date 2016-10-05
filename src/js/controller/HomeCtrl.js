@@ -48,8 +48,9 @@ app
       $scope.petrarea,
       {
         style:{
-          "fillColor": "blue",
-          "weight": 5,
+          "fillColor": "#47a284",
+          "color": "#47a284",
+          "weight": 3,
           "opacity": 0.65
         }
       }
@@ -72,9 +73,10 @@ app
       $scope.hgarea,
       {
         style:{
-          "fillColor": "grey",
-          "weight": 4,
-          "opacity": 0.45
+          "fillColor": "#a2bcb3",
+          "color": "#47a284",
+          "weight": 2.5,
+          "opacity": 0.37
         }
       }
     );
