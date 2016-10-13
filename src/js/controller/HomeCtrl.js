@@ -83,4 +83,36 @@ app
     geojson.addTo(mymap);
   });
 
+  $scope.itempoints = [];
+  $http.get("http://localhost:1337/item/?limit=80")
+  .then(function (response) {
+    for (i=0; i<response.data.length; i++){
+      $scope.itempoints.push ({
+        "type": "Feature",
+        "properties": {
+          "name": response.data[i].name,
+          "popupContent": response.data[i].description + response.data[i].address + response.data[i].horaires
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates":response.data[i].coordinates // Probleme des coordinates, elles ont des guillemets qu'il faut absolument supprimer, sinon le Geojson peut pas etre consruit.
+        }
+      })
+      console.log($scope.itempoints[i]);
+    }
+    // var geojson = L.geoJson(
+    //   $scope.itempoints,
+    //   {
+    //     style:{
+    //       radius: 8,
+    //       fillColor: "#ff7800",
+    //       color: "#000",
+    //       weight: 1,
+    //       opacity: 1,
+    //       fillOpacity: 0.8
+    //     }
+    //   }
+    // );
+    // geojson.addTo(mymap);
+  });
 }]);
