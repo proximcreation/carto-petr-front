@@ -90,29 +90,35 @@ app
       $scope.itempoints.push ({
         "type": "Feature",
         "properties": {
+          "type": response.data[i].type,
           "name": response.data[i].name,
-          "popupContent": response.data[i].description + response.data[i].address + response.data[i].horaires
+          "popupContent": response.data[i].description + "\n" + response.data[i].address + "\n" + response.data[i].horaires
         },
         "geometry": {
           "type": "Point",
-          "coordinates":response.data[i].coordinates // Probleme des coordinates, elles ont des guillemets qu'il faut absolument supprimer, sinon le Geojson peut pas etre consruit.
+          "coordinates": response.data[i].coordinates[0]  // Probleme des coordinates, elles ont des guillemets qu'il faut absolument supprimer, sinon le Geojson peut pas etre consruit.
         }
       })
       console.log($scope.itempoints[i]);
+      console.log(response.data[i].coordinates[0]);
     }
-    // var geojson = L.geoJson(
-    //   $scope.itempoints,
-    //   {
-    //     style:{
-    //       radius: 8,
-    //       fillColor: "#ff7800",
-    //       color: "#000",
-    //       weight: 1,
-    //       opacity: 1,
-    //       fillOpacity: 0.8
-    //     }
-    //   }
-    // );
+    var geojson = L.geoJson(
+      $scope.itempoints,
+      {
+        style:{
+          // switch ($scope.itempoints.properties.type) {
+          //   case 'touristic': return {color: "#fe3eb0d"};
+          //   case 'institution':   return {color: "#e71515"};
+          //   case 'entreprise':   return {color: "#0d80eb"};
+          // }
+          // radius: 8,
+          // fillColor: "#ff7800",
+          // weight: 1,
+          // opacity: 1,
+          // fillOpacity: 0.8
+        }
+      }
+    );
     // geojson.addTo(mymap);
   });
 }]);
