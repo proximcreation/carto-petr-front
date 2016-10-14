@@ -12,7 +12,6 @@ app
   }).addTo(mymap);
   $scope.life = {};
   $scope.new = {};
-
   function onEachFeature(feature, layer) {
     var popupContent = "<p>INFOS :</p>";
 
@@ -83,11 +82,22 @@ app
     geojson.addTo(mymap);
   });
 
-  $scope.itempoints = [];
+  var greenIcon = L.icon({
+    iconUrl: 'greenmark.png',
+    shadowUrl: 'marker-shadow.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+  });
+
   $http.get("http://localhost:1337/item/?limit=80")
   .then(function (response) {
     for (i=0; i<response.data.length; i++){
-      $scope.itempoints.push ({
+      var Coord = response.data[i].coordinates[0].split(",");
+      var geojsonitem =  {
         "type": "Feature",
         "properties": {
           "type": response.data[i].type,
@@ -96,29 +106,34 @@ app
         },
         "geometry": {
           "type": "Point",
-          "coordinates": response.data[i].coordinates[0]  // Probleme des coordinates, elles ont des guillemets qu'il faut absolument supprimer, sinon le Geojson peut pas etre consruit.
+          "coordinates": [parseFloat(Coord[0]),parseFloat(Coord[1])]  // Probleme des coordinates, elles ont des guillemets qu'il faut absolument supprimer, sinon le Geojson peut pas etre consruit.
         }
-      })
-      console.log($scope.itempoints[i]);
-      console.log(response.data[i].coordinates[0]);
+      };
+      // L.geoJson(geojsonitem, {
+      //   onEachFeature: onEachFeature
+      // }).addTo(mymap);
     }
-    var geojson = L.geoJson(
-      $scope.itempoints,
-      {
-        style:{
+  });
+
           // switch ($scope.itempoints.properties.type) {
-          //   case 'touristic': return {color: "#fe3eb0d"};
-          //   case 'institution':   return {color: "#e71515"};
-          //   case 'entreprise':   return {color: "#0d80eb"};
+          //   case 'touristic': return {iconUrl: 'greenmark.png'};
+          //   case 'institution':   return {iconUrl: 'yellowmark.png'};
+          //   case 'entreprise':   return {iconUrl: 'bluemark.png'};
           // }
           // radius: 8,
           // fillColor: "#ff7800",
           // weight: 1,
           // opacity: 1,
           // fillOpacity: 0.8
-        }
-      }
-    );
-    // geojson.addTo(mymap);
-  });
+
+//     var greenIcon = L.icon({
+//     iconUrl: 'greenmark.png',
+//     shadowUrl: 'marker-shadow.png',
+//
+//     iconSize:     [38, 95], // size of the icon
+//     shadowSize:   [50, 64], // size of the shadow
+//     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+//     shadowAnchor: [4, 62],  // the same for the shadow
+//     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+// });
 }]);
