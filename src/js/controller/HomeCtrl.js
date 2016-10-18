@@ -11,7 +11,11 @@ app
     accessToken: 'your.mapbox.public.access.token'
   }).addTo(mymap);
   map.bringToBack();
-  $scope.life = {};
+  $scope.life = {
+    checki: true,
+    checkt: true,
+    checke: true
+  };
   $scope.new = {};
 
   function onEachFeature(feature, layer) {
@@ -81,6 +85,10 @@ app
     geojson.addTo(mymap);
   });
 
+  var titem;
+  var eitem;
+  var iitem;
+
   $scope.itempoints = [];
   $http.get("http://localhost:1337/item/?limit=80")
   .then(function (response) {
@@ -103,38 +111,11 @@ app
         }
       });
     }
-
-    // $scope.$watch(
-    //   // This function returns the value being watched. It is called for each turn of the $digest loop
-    //   function() { return checki; },
-    //   // This is the change listener, called when the value returned from the above function changes
-    //   function(newValue, oldValue) {
-    //     if ( newValue !== oldValue ) {
-    //       // Only increment the counter if the value changed
-    //       console.log("afficher/desafficher")
-    //     }
-    //   }
-    // );
-
-    var gitem = L.geoJson($scope.itempoints, {
+    iitem = L.geoJson(_.filter($scope.itempoints, function(point){return point.properties.type == 'institution'}),{
       pointToLayer: function (feature, latlng) {
-        var typecolor;
-        switch (feature.properties.type) {
-          case 'touristic':
-          typecolor = "#e22121"
-          break;
-          case 'institution':
-          typecolor = "#1e7ad0"
-          break;
-          case 'entreprise':
-          typecolor = "#dbee0c"
-          break;
-          default:
-          typecolor = "#4aa989"
-        }
         return L.circleMarker(latlng, {
           radius: 5,
-          fillColor: typecolor,
+          fillColor: "#1e7ad0",
           color: "#000",
           weight: 1,
           opacity: 0.9,
@@ -143,7 +124,70 @@ app
       },
       onEachFeature: onEachFeature
     }).addTo(mymap);
-    gitem.bringToFront();
+    iitem.bringToFront();
+
+    titem = L.geoJson(_.filter($scope.itempoints, function(point){return point.properties.type == 'touristic'}),{
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: "#e22121",
+          color: "#000",
+          weight: 1,
+          opacity: 0.9,
+          fillOpacity: 0.8
+        });
+      },
+      onEachFeature: onEachFeature
+    }).addTo(mymap);
+    titem.bringToFront();
+
+    eitem = L.geoJson(_.filter($scope.itempoints, function(point){return point.properties.type == 'entreprise'}),{
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: "#dbee0c",
+          color: "#000",
+          weight: 1,
+          opacity: 0.9,
+          fillOpacity: 0.8
+        });
+      },
+      onEachFeature: onEachFeature
+    }).addTo(mymap);
+    eitem.bringToFront();
   });
-  console.log($scope.itempoints);
+
+  $scope.$watch(
+    function() { return [$scope.life.checki, $scope.life.checkt, $scope.life.checke]; },
+    function() {
+      if ($scope.life.checki == true){ // si i est checké
+        if (iitem !== undefined){
+          iitem.addTo(mymap);
+          iitem.bringToFront();
+        }
+      }
+      else { // si i n'est pas checké
+          mymap.removeLayer(iitem);
+      }
+      if ($scope.life.checkt == true){ // si i est checké
+        if (titem !== undefined){
+          titem.addTo(mymap);
+          titem.bringToFront();
+        }
+      }
+      else { // si i n'est pas checké
+          mymap.removeLayer(titem);
+      }
+      if ($scope.life.checke == true){ // si i est checké
+        if (eitem !== undefined){
+          eitem.addTo(mymap);
+          eitem.bringToFront();
+        }
+      }
+      else { // si i n'est pas checké
+          mymap.removeLayer(eitem);
+      }
+    },
+    true
+  );
 }]);
