@@ -28,10 +28,13 @@ app
     layer.bindPopup(popupContent);
 
   }
-
+  $scope.create = function(v){
+    $scope.names.push(v);
+  }
   $scope.petrarea = [];
   $http.get("http://localhost:1337/city/?limit=80")
   .then(function (response) {
+    $scope.names = response.data;
     for (i=0; i<response.data.length; i++){
       $scope.petrarea.push ({
         "type": "Feature",

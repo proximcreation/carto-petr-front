@@ -13,4 +13,12 @@
     <INPUT id="touristic" type="checkbox" name="touristic" value="2" ng-model="life.checkt"> <label for="touristic" class="checkbox">Lieux Touristiques </label><br>
     <INPUT id="entreprise" type="checkbox" name="entreprise" value="3" ng-model="life.checke"> <label for="entreprise" class="checkbox">Entreprises </label><br>
   </FORM>
+  <br><br>
+  <FORM class="choixville" id="choixville">
+    <p class="toolbartitle">Filtre par commune</p>
+    <br>
+    <select name="commune" multiple size="30">
+      <option ng-repeat="x in names" value={{x.insee}}>{{x.name}}</option>
+    </select>
+  </FORM>
 </div>
