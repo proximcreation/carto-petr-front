@@ -92,6 +92,10 @@ app
   var eitem;
   var iitem;
 
+  $scope.staticeitem;
+  $scope.staticiitem;
+  $scope.statictitem;
+
   $scope.itempoints = [];
   $http.get("http://localhost:1337/item/?limit=80")
   .then(function (response) {
@@ -102,6 +106,7 @@ app
         "properties": {
           "type": response.data[i].type,
           "name": response.data[i].name,
+          "inseecommune": response.data[i].inseecommune,
           "popupContent":
                 "<center><h2>" + response.data[i].name + "</h2></center>"
               + "<center><strong>" + response.data[i].description + "<br><br></strong></center>"
@@ -158,37 +163,71 @@ app
       onEachFeature: onEachFeature
     }).addTo(mymap);
     eitem.bringToFront();
+
   });
 
+  $scope.resetSelection = function(){
+    $scope.life.selection = [];
+  }
+
   $scope.$watch(
-    function() { return [$scope.life.checki, $scope.life.checkt, $scope.life.checke]; },
+    function() { return [$scope.life.checki, $scope.life.checkt, $scope.life.checke, $scope.life.selection]; },
     function() {
       if ($scope.life.checki == true){ // si i est checké
         if (iitem !== undefined){
-          iitem.addTo(mymap);
-          iitem.bringToFront();
+          mymap.removeLayer(iitem)
+          if ($scope.life.selection.length == 0){
+            iitem.addTo(mymap);
+            iitem.bringToFront();
+          }
+          else{
+            var layer = angular.copy(iitem);
+            layer._layers = _.filter(iitem._layers, function(o) {return $scope.life.selection.includes(o.feature.properties.inseecommune);});
+            layer.addTo(mymap);
+            layer.bringToFront();
+          }
         }
       }
       else { // si i n'est pas checké
-          mymap.removeLayer(iitem);
+        mymap.removeLayer(iitem);
       }
-      if ($scope.life.checkt == true){ // si i est checké
-        if (titem !== undefined){
-          titem.addTo(mymap);
-          titem.bringToFront();
-        }
-      }
-      else { // si i n'est pas checké
-          mymap.removeLayer(titem);
-      }
-      if ($scope.life.checke == true){ // si i est checké
+
+      if ($scope.life.checke == true){ // si e est checké
         if (eitem !== undefined){
-          eitem.addTo(mymap);
-          eitem.bringToFront();
+          mymap.removeLayer(eitem)
+          if ($scope.life.selection.length == 0){
+            eitem.addTo(mymap);
+            eitem.bringToFront();
+          }
+          else{
+            var layer = angular.copy(eitem);
+            layer._layers = _.filter(eitem._layers, function(o) {return $scope.life.selection.includes(o.feature.properties.inseecommune);});
+            layer.addTo(mymap);
+            layer.bringToFront();
+          }
         }
       }
-      else { // si i n'est pas checké
-          mymap.removeLayer(eitem);
+      else { // si e n'est pas checké
+        mymap.removeLayer(eitem);
+      }
+
+      if ($scope.life.checkt == true){ // si t est checké
+        if (titem !== undefined){
+          mymap.removeLayer(titem)
+          if ($scope.life.selection.length == 0){
+            titem.addTo(mymap);
+            titem.bringToFront();
+          }
+          else{
+            var layer = angular.copy(titem);
+            layer._layers = _.filter(titem._layers, function(o) {return $scope.life.selection.includes(o.feature.properties.inseecommune);});
+            layer.addTo(mymap);
+            layer.bringToFront();
+          }
+        }
+      }
+      else { // si t n'est pas checké
+        mymap.removeLayer(titem);
       }
     },
     true

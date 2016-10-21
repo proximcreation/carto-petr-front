@@ -9,16 +9,20 @@
   <FORM class="checking" id="checking">
     <p class="toolbartitle">Types de points d'interêt</p>
     <br>
-    <INPUT id="institution" type="checkbox" name="institution" value="1" ng-model="life.checki" checked> <label for="institution" class="checkbox">Institutions </label><br>
+    <INPUT id="institution" type="checkbox" name="institution" value="1" ng-model="life.checki"> <label for="institution" class="checkbox">Institutions </label><br>
     <INPUT id="touristic" type="checkbox" name="touristic" value="2" ng-model="life.checkt"> <label for="touristic" class="checkbox">Lieux Touristiques </label><br>
     <INPUT id="entreprise" type="checkbox" name="entreprise" value="3" ng-model="life.checke"> <label for="entreprise" class="checkbox">Entreprises </label><br>
   </FORM>
   <br><br>
   <FORM class="choixville" id="choixville">
     <p class="toolbartitle">Filtre par commune</p>
+    <p class="toolbartitle" style="font-size: 9px;"> ctrl+clic pour selectionner plusieurs villes </p>
     <br>
-    <select name="commune" multiple size="30">
-      <option ng-repeat="x in names" value={{x.insee}}>{{x.name}}</option>
+    <button class="toolbartitle" ng-click="resetSelection(Selection)" style="font-size: 11px;"><i class="fa fa-search"></i>&nbsp;Reset Selection</button>
+    <br><br>
+    <select name="commune" ng-model="life.selection" multiple size="25">
+      <option ng-repeat="x in names" value={{x.insee}}><label for={{x.name}} class="option">{{x.name}}</label></option>
     </select>
+
   </FORM>
 </div>
